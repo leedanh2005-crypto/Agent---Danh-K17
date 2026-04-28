@@ -401,32 +401,68 @@ if prompt:
     with st.chat_message("user"):
         st.markdown(prompt)
     with st.chat_message("assistant"):
-        with st.spinner("Đợi mình một lát nhé..."):
-            context = load_knowledge_base()
-            full_prompt = f"Dựa trên bối cảnh: {context}\n\nTrả lời thân thiện: {prompt}"
-            try:
-                response = model.generate_content(full_prompt)
-                full_text = response.text
-                placeholder = st.empty()
-                placeholder.markdown("""
-<div style="opacity:0.3">
-██████████████████████  
-████████████████  
-██████████  
-██████████████████  
-</div>
-""", unsafe_allow_html=True)
-                time.sleep(0.6)
-                typed_text = ""
-                for char in full_text:
-                    typed_text += char
-                    placeholder.markdown(highlight_keywords(typed_text))
-                    time.sleep(0.005)
-                highlighted = highlight_keywords(full_text)
-                st.session_state.messages.append({
-                    "role": "assistant",
-                    "content": highlighted
-                })
-                save_to_log(prompt, full_text)
-            except Exception as e:
-                st.error(f"Lỗi: {e}")
+        # ===== PROGRESS BAR =====
+        progress_placeholder = st.empty()
+        status_texts = [
+            "🔍 Đang tìm kiếm thông tin...",
+            "📚 Đang đọc tài liệu...",
+            "🧠 Đang xử lý câu hỏi...",
+            "✍️ Đang soạn câu trả lời..."
+        ]
+        progress_placeholder.markdown(f"""
+            <div style="padding: 10px 0;">
+                <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">{status_texts[0]}</div>
+                <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:6px;width:100%">
+                    <div style="background:linear-gradient(90deg,#a78bfa,#38bdf8);height:6px;border-radius:8px;width:5%;transition:width 0.3s ease"></div>
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+
+        context = load_knowledge_base()
+        full_prompt = f"Dựa trên bối cảnh: {context}\n\nTrả lời thân thiện: {prompt}"
+
+        # Cập nhật progress trong khi gọi API
+        for step, (pct, text) in enumerate(zip([20, 50, 80], status_texts[1:])):
+            time.sleep(0.3)
+            progress_placeholder.markdown(f"""
+                <div style="padding: 10px 0;">
+                    <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">{text}</div>
+                    <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:6px;width:100%">
+                        <div style="background:linear-gradient(90deg,#a78bfa,#38bdf8);height:6px;border-radius:8px;width:{pct}%;transition:width 0.3s ease"></div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+
+        try:
+            response = model.generate_content(full_prompt)
+            full_text = response.text
+
+            # 100% xong
+            progress_placeholder.markdown(f"""
+                <div style="padding: 10px 0;">
+                    <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">✅ Hoàn tất!</div>
+                    <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:6px;width:100%">
+                        <div style="background:linear-gradient(90deg,#a78bfa,#38bdf8);height:6px;border-radius:8px;width:100%"></div>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+            time.sleep(0.3)
+            progress_placeholder.empty()
+
+            placeholder = st.empty()
+            typed_text = ""
+            for char in full_text:
+                typed_text += char
+                placeholder.markdown(highlight_keywords(typed_text))
+                time.sleep(0.005)
+
+            highlighted = highlight_keywords(full_text)
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": highlighted
+            })
+            save_to_log(prompt, full_text)
+
+        except Exception as e:
+            progress_placeholder.empty()
+            st.error(f"Lỗi: {e}")
