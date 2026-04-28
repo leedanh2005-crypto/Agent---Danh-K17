@@ -10,7 +10,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # --- 1. CẤU HÌNH  ---
-API_KEY = "AIzaSyDnoyrBRGxdvuEJAkJdwWHUq7XGrEcXeCM"
+API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=API_KEY)
 model = genai.GenerativeModel('gemini-flash-latest')
 
@@ -67,7 +67,7 @@ def update_rating_in_log(index, danh_gia):
     with open(log_file, "w", encoding="utf-8") as f:
         json.dump(logs, f, ensure_ascii=False, indent=2)
 
-st.set_page_config(page_title="Trợ lý của Sinh viên K17", page_icon="🎓", layout="wide")
+st.set_page_config(page_title="Trợ lý của Sinh viên K17", page_icon="🎓", layout="wide", initial_sidebar_state="collapsed")
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
