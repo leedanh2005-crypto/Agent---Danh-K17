@@ -385,7 +385,15 @@ if "ratings" not in st.session_state:
 
 # ===== LỜI CHÀO ĐẦU =====
 if len(st.session_state.messages) == 0:
-    loi_chao = "Chào các bạn, mình là AI Chatbot do sinh viên lớp Tuyển dụng 49K17.2 xây dựng nhằm đồng hành và cung cấp thông tin cho những học sinh đang quan tâm đến ngành Quản trị Nhân lực tại Trường Đại học Kinh tế – Đại học Đà Nẵng. Mình sẽ giúp các bạn tìm hiểu rõ hơn về ngành học, chương trình đào tạo và những nội dung liên quan trong quá trình lựa chọn."
+    loi_chao = """
+    Chào các bạn, mình là AI Chatbot do sinh viên lớp Tuyển dụng 49K17.2 xây dựng nhằm đồng hành và cung cấp thông tin cho những học sinh đang quan tâm đến ngành Quản trị Nhân lực tại Trường Đại học Kinh tế – Đại học Đà Nẵng. Mình sẽ giúp các bạn tìm hiểu rõ hơn về ngành học, chương trình đào tạo và những nội dung liên quan trong quá trình lựa chọn.
+    
+    ---
+    💡 **Mẹo nhỏ để hỗ trợ bạn tốt nhất:**
+    *   🔍 **Tra cứu nhanh (Sidebar):** Nhập từ khóa để xem trực tiếp Handbook (**Nhanh & Không giới hạn**).
+    *   🤖 **Hỏi đáp AI:** Gõ câu hỏi vào ô bên dưới để mình giải đáp chuyên sâu.
+    *   ⏳ **Lưu ý:** Nếu mình báo lỗi quá tải, bạn vui lòng **đợi 1 phút** rồi hỏi lại nhé!
+    """
     with st.chat_message("assistant"):
         st.markdown(loi_chao)
 
