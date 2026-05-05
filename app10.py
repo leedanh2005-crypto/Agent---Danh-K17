@@ -8,7 +8,6 @@ import json
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-
 import random
 
 # --- 1. CẤU HÌNH XOAY VÒNG API KEY (Tăng hạn mức x3) ---
@@ -252,7 +251,7 @@ else:
 with st.sidebar:
     st.title("🚀 Công cụ hỗ trợ")
     
-    # ===== TÍNH NĂNG TRA CỨU NHANH (0 TOKEN) =====
+    # ===== TÍNH NĂNG TRA CỨU NHANH (ĐƯA LÊN ĐẦU) =====
     st.markdown("### 🔍 Tra cứu nhanh Handbook")
     search_query = st.text_input("Nhập từ khóa tìm kiếm:", placeholder="Ví dụ: tốt nghiệp, học bổng...", key="sidebar_search")
     
@@ -273,6 +272,18 @@ with st.sidebar:
             else:
                 st.info("Không tìm thấy thông tin phù hợp.")
     
+    st.divider()
+    # ===== CỔNG THÔNG TIN DUE (LINK PORTAL) =====
+    st.markdown("### 🔗 Cổng thông tin DUE")
+    
+    col_a, col_b = st.columns(2)
+    with col_a:
+        st.link_button("🌐 Website DUE", "https://due.udn.vn/", use_container_width=True)
+        st.link_button("🎓 Cổng sinh viên", "http://daotao.due.udn.vn/", use_container_width=True)
+    with col_b:
+        st.link_button("📝 Moodle DUE", "https://moodle.due.udn.vn/", use_container_width=True)
+        st.link_button("🏢 Khoa QTNNL", "https://khoaqtnnl.due.udn.vn/", use_container_width=True)
+
     st.divider()
 
     if st.button("Xóa lịch sử chat"):
@@ -528,12 +539,6 @@ if prompt:
                     <span id="content_new_{new_msg_id}" style="display:none">{safe_content}</span>
                     <button class="action-btn" id="copybtn_content_new_{new_msg_id}"
                         onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
-                """, unsafe_allow_html=True)
-
-        except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"Lỗi: {e}")
-       onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
                 """, unsafe_allow_html=True)
 
         except Exception as e:
