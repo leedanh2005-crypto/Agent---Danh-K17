@@ -251,7 +251,7 @@ else:
 with st.sidebar:
     st.title("🚀 Công cụ hỗ trợ")
     
-    # ===== TÍNH NĂNG TRA CỨU NHANH (ĐƯA LÊN ĐẦU) =====
+    # ===== TÍNH NĂNG TRA CỨU NHANH (0 TOKEN) =====
     st.markdown("### 🔍 Tra cứu nhanh Handbook")
     search_query = st.text_input("Nhập từ khóa tìm kiếm:", placeholder="Ví dụ: tốt nghiệp, học bổng...", key="sidebar_search")
     
@@ -332,9 +332,25 @@ st.divider()
 # ===== JS RIPPLE + COPY =====
 st.markdown("""
 <script>
+function copyText(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const textToCopy = el.innerText || el.textContent;
+    navigator.clipboard.writeText(textToCopy).then(function() {
+        const btn = document.getElementById('copybtn_' + id);
+        if (btn) {
+            btn.innerText = '✅ Đã copy!';
+            setTimeout(function() { btn.innerText = '📋 Copy'; }, 2000);
+        }
+    }).catch(function(err) {
+        console.error('Lỗi copy: ', err);
+    });
+}
+
 document.addEventListener('click', function(e) {
     const btn = e.target.closest('button');
     if (!btn) return;
+    if (btn.classList.contains('action-btn')) return;
     const circle = document.createElement('span');
     const diameter = Math.max(btn.clientWidth, btn.clientHeight) * 3;
     const radius = diameter / 2;
@@ -354,18 +370,6 @@ document.addEventListener('click', function(e) {
     btn.appendChild(circle);
     setTimeout(function() { circle.remove(); }, 700);
 });
-
-function copyText(id) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    navigator.clipboard.writeText(el.innerText).then(function() {
-        const btn = document.getElementById('copybtn_' + id);
-        if (btn) {
-            btn.innerText = '✅ Đã copy!';
-            setTimeout(function() { btn.innerText = '📋 Copy'; }, 2000);
-        }
-    });
-}
 </script>
 """, unsafe_allow_html=True)
 
@@ -423,6 +427,7 @@ for i, message in enumerate(st.session_state.messages):
     if message["role"] == "assistant":
         msg_id = f"msg_{assistant_index}"
         rating = st.session_state.ratings.get(msg_id, None)
+        # Chuẩn bị nội dung để copy (xử lý các ký tự đặc biệt)
         safe_content = message["content"].replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', ' ')
 
         col_like, col_dislike, col_copy, col_rest = st.columns([1.2, 1.2, 1.2, 8.4])
@@ -518,28 +523,7 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
-            
-            # --- HIỂN THỊ NÚT NGAY LẬP TỨC ---
-            new_msg_id = f"msg_{len([m for m in st.session_state.messages if m['role'] == 'assistant']) - 1}"
-            safe_content = highlighted.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', ' ')
-            
-            col_like, col_dislike, col_copy, col_rest = st.columns([1.2, 1.2, 1.2, 8.4])
-            with col_like:
-                if st.button("👍 Hữu ích", key=f"like_new_{new_msg_id}"):
-                    st.session_state.ratings[new_msg_id] = "👍"
-                    update_rating_in_log(len(st.session_state.messages)//2, "👍")
-                    st.rerun()
-            with col_dislike:
-                if st.button("👎 Chưa tốt", key=f"dislike_new_{new_msg_id}"):
-                    st.session_state.ratings[new_msg_id] = "👎"
-                    update_rating_in_log(len(st.session_state.messages)//2, "👎")
-                    st.rerun()
-            with col_copy:
-                st.markdown(f"""
-                    <span id="content_new_{new_msg_id}" style="display:none">{safe_content}</span>
-                    <button class="action-btn" id="copybtn_content_new_{new_msg_id}"
-                        onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
-                """, unsafe_allow_html=True)
+            st.rerun() # Dùng rerun ở cuối để đồng bộ giao diện và kích hoạt nút Copy/Like mượt mà nhất
 
         except Exception as e:
             progress_placeholder.empty()
