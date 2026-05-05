@@ -462,7 +462,31 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
+            
+            # --- HIỂN THỊ NÚT NGAY LẬP TỨC (KHÔNG DÙNG RERUN) ---
+            new_msg_id = f"msg_{len([m for m in st.session_state.messages if m['role'] == 'assistant']) - 1}"
+            safe_content = highlighted.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', ' ')
+            
+            col_like, col_dislike, col_copy, col_rest = st.columns([1.2, 1.2, 1.2, 8.4])
+            with col_like:
+                if st.button("👍 Hữu ích", key=f"like_new_{new_msg_id}"):
+                    st.session_state.ratings[new_msg_id] = "👍"
+                    update_rating_in_log(len(st.session_state.messages)//2, "👍")
+                    st.rerun()
+            with col_dislike:
+                if st.button("👎 Chưa tốt", key=f"dislike_new_{new_msg_id}"):
+                    st.session_state.ratings[new_msg_id] = "👎"
+                    update_rating_in_log(len(st.session_state.messages)//2, "👎")
+                    st.rerun()
+            with col_copy:
+                st.markdown(f"""
+                    <span id="content_new_{new_msg_id}" style="display:none">{safe_content}</span>
+                    <button class="action-btn" id="copybtn_content_new_{new_msg_id}"
+                        onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
+                """, unsafe_allow_html=True)
 
         except Exception as e:
+            progress_placeholder.empty()
+            st.error(f"Lỗi: {e}")t Exception as e:
             progress_placeholder.empty()
             st.error(f"Lỗi: {e}")
