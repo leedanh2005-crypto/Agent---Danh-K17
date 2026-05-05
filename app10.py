@@ -342,7 +342,10 @@ def load_knowledge_base():
     for filename in files:
         if os.path.exists(filename):
             with open(filename, "r", encoding="utf-8") as f:
-                knowledge += f"\n--- NGUỒN: {filename} ---\n" + f.read()
+                # Nén tri thức: Bỏ các dòng trống thừa và khoảng trắng ở hai đầu dòng
+                lines = f.readlines()
+                clean_lines = [l.strip() for l in lines if l.strip()]
+                knowledge += f"\n" + "\n".join(clean_lines)
     return knowledge
 
 # --- CHAT ---
@@ -463,7 +466,7 @@ if prompt:
             })
             save_to_log(prompt, full_text)
             
-            # --- HIỂN THỊ NÚT NGAY LẬP TỨC (KHÔNG DÙNG RERUN) ---
+            # --- HIỂN THỊ NÚT NGAY LẬP TỨC ---
             new_msg_id = f"msg_{len([m for m in st.session_state.messages if m['role'] == 'assistant']) - 1}"
             safe_content = highlighted.replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', ' ')
             
@@ -486,7 +489,5 @@ if prompt:
                 """, unsafe_allow_html=True)
 
         except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"Lỗi: {e}")t Exception as e:
             progress_placeholder.empty()
             st.error(f"Lỗi: {e}")
