@@ -9,9 +9,19 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# --- 1. CẤU HÌNH  ---
-API_KEY = st.secrets["GEMINI_API_KEY"]
-genai.configure(api_key=API_KEY)
+import random
+
+# --- 1. CẤU HÌNH XOAY VÒNG API KEY (Tăng hạn mức x3) ---
+API_KEYS = [
+    st.secrets.get("GEMINI_API_KEY"),
+    st.secrets.get("GEMINI_API_KEY_2"),
+    st.secrets.get("GEMINI_API_KEY_3")
+]
+# Lọc bỏ các giá trị None nếu bạn chưa điền đủ 3 key
+VALID_KEYS = [k for k in API_KEYS if k]
+SELECTED_KEY = random.choice(VALID_KEYS) if VALID_KEYS else st.secrets["GEMINI_API_KEY"]
+
+genai.configure(api_key=SELECTED_KEY)
 model = genai.GenerativeModel('gemini-flash-latest')
 
 # ===== CẤU HÌNH GMAIL =====
@@ -518,6 +528,12 @@ if prompt:
                     <span id="content_new_{new_msg_id}" style="display:none">{safe_content}</span>
                     <button class="action-btn" id="copybtn_content_new_{new_msg_id}"
                         onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
+                """, unsafe_allow_html=True)
+
+        except Exception as e:
+            progress_placeholder.empty()
+            st.error(f"Lỗi: {e}")
+       onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
                 """, unsafe_allow_html=True)
 
         except Exception as e:
