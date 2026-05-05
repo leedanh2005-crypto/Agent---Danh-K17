@@ -279,10 +279,10 @@ with st.sidebar:
     col_a, col_b = st.columns(2)
     with col_a:
         st.link_button("🌐 Website DUE", "https://due.udn.vn/", use_container_width=True)
-        st.link_button("🎓 Cổng sinh viên", "http://daotao.due.udn.vn/", use_container_width=True)
+        st.link_button("📊 Tra cứu điểm", "http://daotao.due.udn.vn/", use_container_width=True)
     with col_b:
         st.link_button("📝 Moodle DUE", "https://moodle.due.udn.vn/", use_container_width=True)
-        st.link_button("🏢 Khoa QTNNL", "https://khoaqtnnl.due.udn.vn/", use_container_width=True)
+        st.link_button("🏢 Khoa QTKD", "https://due.udn.vn/vi-vn/khoa/quan-tri-kinh-doanh", use_container_width=True)
 
     st.divider()
 
