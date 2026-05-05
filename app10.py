@@ -266,6 +266,7 @@ with st.sidebar:
     st.markdown("### 🗂️ Lịch sử câu hỏi")
     admin_pw = st.text_input("Mật khẩu admin:", type="password", placeholder="Nhập mật khẩu...")
     if st.button("📋 Xem log"):
+        # ... (giữ nguyên logic xem log)
         if admin_pw == "0913":
             if os.path.exists("chat_log.json"):
                 with open("chat_log.json", "r", encoding="utf-8") as f:
@@ -281,6 +282,33 @@ with st.sidebar:
                 st.info("Chưa có log nào.")
         else:
             st.error("❌ Sai mật khẩu!")
+    
+    st.divider()
+    # ===== TÍNH NĂNG TRA CỨU NHANH (0 TOKEN) =====
+    st.markdown("### 🔍 Tra cứu nhanh Handbook")
+    search_query = st.text_input("Nhập từ khóa tìm kiếm:", placeholder="Ví dụ: tốt nghiệp, học bổng...")
+    
+    if search_query:
+        handbook_path = "QTNNL-handbook.md"
+        if os.path.exists(handbook_path):
+            with open(handbook_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            
+            # Chia nhỏ handbook theo các tiêu đề ##
+            sections = content.split("##")
+            results = [s for s in sections if search_query.lower() in s.lower()]
+            
+            if results:
+                st.success(f"Tìm thấy {len(results)} mục liên quan:")
+                for res in results:
+                    # Lấy tiêu đề dòng đầu tiên của đoạn để làm nhãn expander
+                    title = res.strip().split('\n')[0] if res.strip() else "Thông tin chi tiết"
+                    with st.expander(f"📖 {title}"):
+                        st.markdown(res)
+            else:
+                st.info("Không tìm thấy thông tin phù hợp trong Handbook.")
+        else:
+            st.error("Không tìm thấy file Handbook.")
 
 st.divider()
 
