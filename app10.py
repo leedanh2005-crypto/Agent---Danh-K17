@@ -281,7 +281,7 @@ with st.sidebar:
         st.link_button("🌐 Website DUE", "https://due.udn.vn/", use_container_width=True)
         st.link_button("📊 Tra cứu điểm", "http://daotao.due.udn.vn/", use_container_width=True)
     with col_b:
-        st.link_button("📝 Moodle DUE", "https://moodle.due.udn.vn/", use_container_width=True)
+        st.link_button("📚 Ngành QTNNL", "https://sites.google.com/view/quantringuonnhanluc?fbclid=IwY2xjawRmjAFleHRuA2FlbQIxMABicmlkETF6eDAwVWdRdmV4d2djQW85c3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHlx7-TEfS6M4xxo2q8cmRr7z0IdnzW0kK4txNgK09ICcGFNOKw3GFeU9wEg8_aem_2ThZL17x7SbrEcfn7UaKbA", use_container_width=True)
         st.link_button("🏢 Khoa QTKD", "https://due.udn.vn/vi-vn/khoa/quan-tri-kinh-doanh", use_container_width=True)
 
     st.divider()
