@@ -21,7 +21,7 @@ def get_system_instruction():
     return "Bạn là trợ lý sinh viên thân thiện."
 
 model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash-latest',
+    model_name='gemini-flash-latest',
     system_instruction=get_system_instruction()
 )
 
