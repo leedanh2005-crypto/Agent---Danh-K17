@@ -265,8 +265,6 @@ with st.sidebar:
     
     st.divider()
 
-    st.markdown("### 📂 Kho tri thức")
-    st.info("Đã nạp: QTNNL-handbook.md")
     if st.button("Xóa lịch sử chat"):
         st.session_state.messages = []
         st.rerun()
