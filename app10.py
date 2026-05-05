@@ -12,11 +12,48 @@ from email.mime.multipart import MIMEMultipart
 # --- 1. CẤU HÌNH  ---
 API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel('gemini-flash-latest')
+
+# Tách file hướng dẫn (System Prompt) và file Handbook (Dữ liệu)
+def get_system_instruction():
+    if os.path.exists("huong-dan.txt"):
+        with open("huong-dan.txt", "r", encoding="utf-8") as f:
+            return f.read()
+    return "Bạn là trợ lý sinh viên thân thiện."
+
+model = genai.GenerativeModel(
+    model_name='gemini-1.5-flash-latest',
+    system_instruction=get_system_instruction()
+)
+
+# --- HÀM LỌC TRI THỨC (TIẾT KIỆM TOKEN) ---
+def get_relevant_context(user_query):
+    handbook_path = "QTNNL-handbook.md"
+    if not os.path.exists(handbook_path):
+        return ""
+    
+    with open(handbook_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    
+    # Chia nhỏ Handbook theo các tiêu đề Chương/Mục (##)
+    sections = content.split("##")
+    relevant_sections = []
+    
+    # Tìm kiếm từ khóa đơn giản trong các đoạn
+    keywords = user_query.lower().split()
+    for section in sections:
+        if any(kw in section.lower() for kw in keywords):
+            relevant_sections.append(section)
+    
+    # Nếu tìm thấy quá nhiều hoặc không thấy, giới hạn để tiết kiệm token
+    if not relevant_sections:
+        return "\n".join(sections[:5]) # Trả về phần giới thiệu đầu tiên
+    
+    return "\n".join(relevant_sections[:8]) # Giới hạn tối đa 8 đoạn liên quan nhất
 
 # ===== CẤU HÌNH GMAIL =====
-SENDER_EMAIL = "leedanh2005@gmail.com"     
-SENDER_PASSWORD = "bgoa ftww iqvr xqap"       
+# Khuyến khích dùng st.secrets cho cả Email và Password khi deploy
+SENDER_EMAIL = st.secrets.get("SENDER_EMAIL", "leedanh2005@gmail.com")
+SENDER_PASSWORD = st.secrets.get("SENDER_PASSWORD", "bgoa ftww iqvr xqap")
 
 def send_email(to_email, chat_history):
     try:
@@ -404,7 +441,7 @@ if prompt:
         # ===== PROGRESS BAR =====
         progress_placeholder = st.empty()
         status_texts = [
-            "🔍 Đang tìm kiếm thông tin...",
+            "🔍 Đang lọc dữ liệu liên quan...",
             "📚 Đang đọc tài liệu...",
             "🧠 Đang xử lý câu hỏi...",
             "✍️ Đang soạn câu trả lời..."
@@ -418,12 +455,13 @@ if prompt:
             </div>
         """, unsafe_allow_html=True)
 
-        context = load_knowledge_base()
-        full_prompt = f"Dựa trên bối cảnh: {context}\n\nTrả lời thân thiện: {prompt}"
+        # LẤY CONTEXT ĐÃ LỌC ĐỂ TIẾT KIỆM TOKEN
+        context = get_relevant_context(prompt)
+        full_prompt = f"Dựa trên bối cảnh sau đây:\n{context}\n\nHãy trả lời câu hỏi: {prompt}"
 
         # Cập nhật progress trong khi gọi API
-        for step, (pct, text) in enumerate(zip([20, 50, 80], status_texts[1:])):
-            time.sleep(0.3)
+        for step, (pct, text) in enumerate(zip([30, 60, 90], status_texts[1:])):
+            time.sleep(0.2)
             progress_placeholder.markdown(f"""
                 <div style="padding: 10px 0;">
                     <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">{text}</div>
