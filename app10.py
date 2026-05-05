@@ -67,7 +67,7 @@ def update_rating_in_log(index, danh_gia):
     with open(log_file, "w", encoding="utf-8") as f:
         json.dump(logs, f, ensure_ascii=False, indent=2)
 
-st.set_page_config(page_title="Trợ lý của Sinh viên K17", page_icon="🎓", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="Trợ lý của Sinh viên K17", page_icon="🎓", layout="wide", initial_sidebar_state="expanded")
 
 def get_base64_image(image_path):
     with open(image_path, "rb") as img_file:
@@ -242,7 +242,7 @@ else:
 with st.sidebar:
     st.title("🚀 Công cụ hỗ trợ")
     
-    # ===== TÍNH NĂNG TRA CỨU NHANH (ĐƯA LÊN ĐẦU) =====
+    # ===== TÍNH NĂNG TRA CỨU NHANH (0 TOKEN) =====
     st.markdown("### 🔍 Tra cứu nhanh Handbook")
     search_query = st.text_input("Nhập từ khóa tìm kiếm:", placeholder="Ví dụ: tốt nghiệp, học bổng...", key="sidebar_search")
     
@@ -520,12 +520,6 @@ if prompt:
                     <span id="content_new_{new_msg_id}" style="display:none">{safe_content}</span>
                     <button class="action-btn" id="copybtn_content_new_{new_msg_id}"
                         onclick="copyText('content_new_{new_msg_id}')">📋 Copy</button>
-                """, unsafe_allow_html=True)
-
-        except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"Lỗi: {e}")
-click="copyText('content_new_{new_msg_id}')">📋 Copy</button>
                 """, unsafe_allow_html=True)
 
         except Exception as e:
