@@ -10,18 +10,21 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import random
 
-# --- 1. CẤU HÌNH XOAY VÒNG API KEY (Tăng hạn mức x3) ---
+# --- 1. CẤU HÌNH DANH SÁCH API KEY ---
 API_KEYS = [
     st.secrets.get("GEMINI_API_KEY"),
     st.secrets.get("GEMINI_API_KEY_2"),
     st.secrets.get("GEMINI_API_KEY_3")
 ]
-# Lọc bỏ các giá trị None nếu bạn chưa điền đủ 3 key
 VALID_KEYS = [k for k in API_KEYS if k]
-SELECTED_KEY = random.choice(VALID_KEYS) if VALID_KEYS else st.secrets["GEMINI_API_KEY"]
 
-genai.configure(api_key=SELECTED_KEY)
-model = genai.GenerativeModel('gemini-flash-latest')
+# Hàm hỗ trợ cấu hình model với key cụ thể
+def configure_genai(api_key):
+    genai.configure(api_key=api_key)
+    return genai.GenerativeModel('gemini-flash-latest')
+
+# Khởi tạo mặc định
+model = configure_genai(random.choice(VALID_KEYS) if VALID_KEYS else st.secrets["GEMINI_API_KEY"])
 
 # ===== CẤU HÌNH GMAIL =====
 SENDER_EMAIL = "leedanh2005@gmail.com"     
@@ -518,22 +521,44 @@ if prompt:
             f = st.session_state.file_analysis
             query_content.insert(0, {"mime_type": f.type, "data": f.read()})
 
-        # Cập nhật progress trong khi gọi API
-        for step, (pct, text) in enumerate(zip([20, 50, 80], status_texts[1:])):
-            time.sleep(0.3)
-            progress_placeholder.markdown(f"""
-                <div style="padding: 10px 0;">
-                    <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">{text}</div>
-                    <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:6px;width:100%">
-                        <div style="background:linear-gradient(90deg,#a78bfa,#38bdf8);height:6px;border-radius:8px;width:{pct}%;transition:width 0.3s ease"></div>
-                    </div>
-                </div>
-            """, unsafe_allow_html=True)
+        # Cố gắng gọi API với cơ chế Xoay vòng Key và Thử lại
+        success = False
+        attempts = 0
+        available_keys = VALID_KEYS.copy()
+        random.shuffle(available_keys) # Xáo trộn danh sách để xoay vòng
 
-        try:
-            response = model.generate_content(query_content)
-            full_text = response.text
+        while not success and attempts < len(available_keys):
+            try:
+                current_key = available_keys[attempts]
+                model = configure_genai(current_key)
+                
+                # Cập nhật progress trong khi gọi API
+                for step, (pct, text) in enumerate(zip([20, 50, 80], status_texts[1:])):
+                    time.sleep(0.3)
+                    progress_placeholder.markdown(f"""
+                        <div style="padding: 10px 0;">
+                            <div style="color:#94a3b8;font-size:13px;margin-bottom:6px">{text}</div>
+                            <div style="background:rgba(255,255,255,0.08);border-radius:8px;height:6px;width:100%">
+                                <div style="background:linear-gradient(90deg,#a78bfa,#38bdf8);height:6px;border-radius:8px;width:{pct}%;transition:width 0.3s ease"></div>
+                            </div>
+                        </div>
+                    """, unsafe_allow_html=True)
 
+                response = model.generate_content(query_content)
+                full_text = response.text
+                success = True
+
+            except Exception as e:
+                attempts += 1
+                if "429" in str(e) and attempts < len(available_keys):
+                    # Nếu lỗi 429, thử key tiếp theo
+                    continue
+                else:
+                    progress_placeholder.empty()
+                    st.error(f"Lỗi hệ thống: {e}")
+                    st.stop()
+
+        if success:
             # 100% xong
             progress_placeholder.markdown(f"""
                 <div style="padding: 10px 0;">
@@ -559,8 +584,4 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
-            st.rerun() 
-
-        except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"Lỗi: {e}")
+            st.rerun()
