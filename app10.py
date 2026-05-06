@@ -420,17 +420,18 @@ if "ratings" not in st.session_state:
     st.session_state.ratings = {}
 
 if "chat_mode" not in st.session_state:
-    st.session_state.chat_mode = "📍 Chế độ Handbook (Nghiêm ngặt)"
+    st.session_state.chat_mode = "📍 Chế độ Tra cứu (Nghiêm ngặt)"
 
 # ===== LỜI CHÀO ĐẦU =====
 if len(st.session_state.messages) == 0:
     loi_chao = """
-    Chào các bạn, mình là AI Chatbot do sinh viên lớp Tuyển dụng 49K17.2 xây dựng nhằm đồng hành và cung cấp thông tin cho những học sinh đang quan tâm đến ngành Quản trị Nhân lực tại Trường Đại học Kinh tế – Đại học Đà Nẵng. Mình sẽ giúp các bạn tìm hiểu rõ hơn về ngành học, chương trình đào tạo và những nội dung liên quan trong quá trình lựa chọn.
+    Chào các bạn, mình là AI Chatbot do sinh viên Lê Công Danh lớp Tuyển dụng 49K17.2 xây dựng nhằm đồng hành và cung cấp thông tin cho những học sinh đang quan tâm đến ngành Quản trị Nhân lực tại Trường Đại học Kinh tế – Đại học Đà Nẵng. Mình sẽ giúp các bạn tìm hiểu rõ hơn về ngành học, chương trình đào tạo và những nội dung liên quan trong quá trình lựa chọn.
     
     ---
     💡 **Mẹo nhỏ để hỗ trợ bạn tốt nhất:**
     *   🔍 **Tra cứu nhanh (Sidebar):** Nhập từ khóa để xem trực tiếp Handbook (**Nhanh & Không giới hạn**).
     *   🤖 **Hỏi đáp AI:** Gõ câu hỏi vào ô bên dưới để mình giải đáp chuyên sâu.
+    *   ➕ **Tính năng mới (Dấu cộng):** Phân tích tệp tin/bảng điểm và chuyển đổi linh hoạt giữa **Chế độ Tra cứu** (Đúng quy định) & **Chế độ Tư vấn** (Định hướng nghề nghiệp).
     *   ⏳ **Lưu ý:** Nếu mình báo lỗi quá tải, bạn vui lòng **đợi 1 phút** rồi hỏi lại nhé!
     """
     with st.chat_message("assistant"):
@@ -570,7 +571,7 @@ if prompt:
                     continue
                 else:
                     progress_placeholder.empty()
-                    st.error(f"Lỗi hệ thống: {e}")
+                    st.error(f"Lỗi hệ hệ thống: {e}")
                     st.stop()
 
         if success:
