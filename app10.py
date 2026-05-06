@@ -215,17 +215,17 @@ hr {{ border-color: rgba(255,255,255,0.1) !important; }}
     100% {{ transform: scale(1); opacity: 0; }}
 }}
 @keyframes pulse-hint {{
-    0% { opacity: 0.6; transform: translateX(0); }
-    50% { opacity: 1; transform: translateX(-5px); }
-    100% { opacity: 0.6; transform: translateX(0); }
-}
-.feature-hint {
+    0% {{ opacity: 0.6; transform: translateX(0); }}
+    50% {{ opacity: 1; transform: translateX(-5px); }}
+    100% {{ opacity: 0.6; transform: translateX(0); }}
+}}
+.feature-hint {{
     color: #f87171;
     font-size: 13px;
     font-weight: bold;
     animation: pulse-hint 1.5s infinite;
     padding-top: 10px;
-}
+}}
 .action-btn {{
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(167,139,250,0.25);
