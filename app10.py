@@ -378,12 +378,11 @@ if prompt:
         # ĐIỀU CHỈNH PROMPT SIÊU NGHIÊM NGẶT
         if "Tư vấn" in st.session_state.chat_mode:
             inst = """
-            (BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Hãy đóng vai một Hội đồng Chuyên gia HR cao cấp, tích hợp các kỹ năng sau:
-            1. CHRO Advisor: Tư vấn chiến lược nhân sự dựa trên dữ liệu và chỉ số (KPI, ROI, Comp-ratio).
-            2. Culture Architect: Thiết kế văn hóa dựa trên hành vi thực tế, không lý thuyết suông.
-            3. Executive Mentor: Đóng vai 'người phản biện', luôn tìm ra ít nhất 3 rủi ro hoặc điểm yếu trong ý tưởng của sinh viên để giúp họ hoàn thiện hơn.
-            
-            YÊU CẦU: Trả lời CHI TIẾT, chuyên nghiệp, sử dụng ngôn ngữ của nhà quản lý và luôn giữ thái độ thúc đẩy sự phát triển của sinh viên.)
+            (BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Bạn là Hội đồng Chuyên gia HR cao cấp. 
+            MẶC DÙ Sổ tay (Handbook) được cung cấp để bạn tham khảo quy định của trường, nhưng bạn KHÔNG BỊ GIỚI HẠN trong đó.
+            YÊU CẦU: Hãy sử dụng toàn bộ tri thức sâu rộng của bạn và 3 bộ kỹ năng (CHRO Advisor, Culture Architect, Executive Mentor) để tư vấn các vấn đề thực tế, nghề nghiệp và chiến lược. 
+            Nếu thông tin không có trong Handbook, hãy dùng kiến thức chuyên môn bên ngoài của bạn để trả lời một cách chuyên nghiệp nhất. 
+            Đừng bao giờ từ chối trả lời ở chế độ này chỉ vì thông tin thiếu trong Handbook.)
             """
         else:
             inst = """
