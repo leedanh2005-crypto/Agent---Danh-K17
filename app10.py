@@ -214,6 +214,18 @@ hr {{ border-color: rgba(255,255,255,0.1) !important; }}
     0%   {{ transform: scale(0); opacity: 0.6; }}
     100% {{ transform: scale(1); opacity: 0; }}
 }}
+@keyframes pulse-hint {{
+    0% { opacity: 0.6; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(-5px); }
+    100% { opacity: 0.6; transform: translateX(0); }
+}
+.feature-hint {
+    color: #f87171;
+    font-size: 13px;
+    font-weight: bold;
+    animation: pulse-hint 1.5s infinite;
+    padding-top: 10px;
+}
 .action-btn {{
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(167,139,250,0.25);
@@ -460,7 +472,7 @@ for i, message in enumerate(st.session_state.messages):
 
 # ===== GIAO DIỆN THANH CHAT NÂNG CẤP (DẤU CỘNG) =====
 with st.container():
-    col_plus, col_info = st.columns([1, 8])
+    col_plus, col_hint, col_info = st.columns([0.6, 3, 6])
     with col_plus:
         with st.popover("➕", help="Thêm tính năng nâng cao"):
             st.markdown("### 🎓 Tiện ích thông minh")
@@ -476,6 +488,9 @@ with st.container():
             if mode != st.session_state.chat_mode:
                 st.session_state.chat_mode = mode
                 st.rerun()
+    with col_hint:
+        if not st.session_state.get("file_analysis"):
+            st.markdown('<span class="feature-hint">⬅️ Tính năng nâng cao</span>', unsafe_allow_html=True)
     with col_info:
         st.caption(f"Đang dùng: {st.session_state.chat_mode}")
 
