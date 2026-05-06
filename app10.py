@@ -98,17 +98,44 @@ def highlight_keywords(text):
 # ===== CSS SIÊU CẤP: MIDNIGHT GLASSMORPHISM (MỜ ẢO & CHUYÊN NGHIỆP) =====
 st.markdown(f"""
 <style>
-/* 1. Deep Space Background with Subtle Motion */
+/* 1. Deep Space Background with Glowing Aura Blobs */
 @keyframes atmospheric {{
     0% {{ background-position: 0% 0%; }}
     50% {{ background-position: 100% 100%; }}
     100% {{ background-position: 0% 0%; }}
 }}
+@keyframes aura-float {{
+    0% {{ transform: translate(0, 0) scale(1); }}
+    33% {{ transform: translate(30px, -50px) scale(1.1); }}
+    66% {{ transform: translate(-20px, 20px) scale(0.9); }}
+    100% {{ transform: translate(0, 0) scale(1); }}
+}}
 html, body, .stApp {{
-    background: radial-gradient(circle at top right, #1e1b4b, #020617),
-                radial-gradient(circle at bottom left, #0f172a, #020617);
+    background: #020617;
     background-attachment: fixed;
     color: #f1f5f9;
+    overflow-x: hidden;
+}}
+.stApp::before, .stApp::after {{
+    content: "";
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0.15;
+}}
+.stApp::before {{
+    background: radial-gradient(circle at 20% 30%, #4338ca 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, #7c3aed 0%, transparent 40%);
+    animation: aura-float 20s infinite linear;
+}}
+.stApp::after {{
+    background: radial-gradient(circle at 70% 20%, #0ea5e9 0%, transparent 35%),
+                radial-gradient(circle at 30% 80%, #6366f1 0%, transparent 35%);
+    animation: aura-float 25s infinite linear reverse;
 }}
 
 /* 2. Professional Glass Sidebar */
