@@ -404,6 +404,9 @@ if "messages" not in st.session_state:
 if "ratings" not in st.session_state:
     st.session_state.ratings = {}
 
+if "chat_mode" not in st.session_state:
+    st.session_state.chat_mode = "📍 Chế độ Handbook (Nghiêm ngặt)"
+
 # ===== LỜI CHÀO ĐẦU =====
 if len(st.session_state.messages) == 0:
     loi_chao = """
@@ -451,6 +454,27 @@ for i, message in enumerate(st.session_state.messages):
             """, unsafe_allow_html=True)
 
         assistant_index += 1
+
+# ===== GIAO DIỆN THANH CHAT NÂNG CẤP (DẤU CỘNG) =====
+with st.container():
+    col_plus, col_info = st.columns([1, 8])
+    with col_plus:
+        with st.popover("➕", help="Thêm tính năng nâng cao"):
+            st.markdown("### 🎓 Tiện ích thông minh")
+            uploaded_file = st.file_uploader("Phân tích bảng điểm/Ảnh (PDF/JPG/PNG)", type=['pdf', 'png', 'jpg'], key="file_analysis")
+            if uploaded_file:
+                st.success("✅ Đã nhận tệp! Hãy đặt câu hỏi về tệp này.")
+            
+            st.divider()
+            st.markdown("### ⚙️ Cấu hình AI")
+            mode = st.radio("Chọn chế độ trả lời:", 
+                            ["📍 Chế độ Handbook (Nghiêm ngặt)", "🚀 Chế độ Career (Tư vấn mở rộng)"],
+                            index=0 if st.session_state.chat_mode == "📍 Chế độ Handbook (Nghiêm ngặt)" else 1)
+            if mode != st.session_state.chat_mode:
+                st.session_state.chat_mode = mode
+                st.rerun()
+    with col_info:
+        st.caption(f"Đang dùng: {st.session_state.chat_mode}")
 
 prompt = st.chat_input("Bạn đang thắc mắc điều gì?")
 
@@ -535,12 +559,7 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
-            st.rerun() # Dùng rerun ở cuối để đồng bộ giao diện và kích hoạt nút Copy/Like mượt mà nhất
-
-        except Exception as e:
-            progress_placeholder.empty()
-            st.error(f"Lỗi: {e}")
-Dùng rerun ở cuối để đồng bộ giao diện và kích hoạt nút Copy/Like mượt mà nhất
+            st.rerun() 
 
         except Exception as e:
             progress_placeholder.empty()
