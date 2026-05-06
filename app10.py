@@ -21,7 +21,7 @@ VALID_KEYS = [k for k in API_KEYS if k]
 # Hàm hỗ trợ cấu hình model với key cụ thể
 def configure_genai(api_key):
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemma-3-1b')
+    return genai.GenerativeModel('gemini-3-flash-live')
 
 # Khởi tạo mặc định
 model = configure_genai(random.choice(VALID_KEYS) if VALID_KEYS else st.secrets["GEMINI_API_KEY"])
