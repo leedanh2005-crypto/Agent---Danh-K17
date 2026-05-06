@@ -95,87 +95,123 @@ def highlight_keywords(text):
         text = text.replace(kw.capitalize(), f"**{kw.capitalize()}**")
     return text
 
-# ===== CSS SIÊU CẤP: LÀM SÁNG & HIỆU ỨNG ÁNH SÁNG =====
+# ===== CSS SIÊU CẤP: MIDNIGHT GLASSMORPHISM (MỜ ẢO & CHUYÊN NGHIỆP) =====
 st.markdown(f"""
 <style>
-/* 1. Brightened Animated Background */
-@keyframes gradientBG {{
-    0% {{ background-position: 0% 50%; }}
-    50% {{ background-position: 100% 50%; }}
-    100% {{ background-position: 0% 50%; }}
+/* 1. Deep Space Background with Subtle Motion */
+@keyframes atmospheric {{
+    0% {{ background-position: 0% 0%; }}
+    50% {{ background-position: 100% 100%; }}
+    100% {{ background-position: 0% 0%; }}
 }}
 html, body, .stApp {{
-    background: linear-gradient(-45deg, #1e1b4b, #312e81, #4c1d95, #1e1b4b);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(circle at top right, #1e1b4b, #020617),
+                radial-gradient(circle at bottom left, #0f172a, #020617);
+    background-attachment: fixed;
+    color: #f1f5f9;
 }}
 
-/* 2. Sidebar Glassmorphism */
+/* 2. Professional Glass Sidebar */
 [data-testid="stSidebar"] {{
-    background: rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(25px);
-    border-right: 1px solid rgba(255,255,255,0.1);
+    background: rgba(2, 6, 23, 0.5) !important;
+    backdrop-filter: blur(40px) saturate(150%);
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
 }}
 
-/* 3. Message Bubbles - Làm trong hơn để sáng hơn */
+/* 3. Header Styling - Ultra Sleek */
+.header-container {{
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    padding: 25px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+}}
+
+/* 4. Message Bubbles - Modern Chat UI */
 [data-testid="stChatMessage"] > div {{
-    border-radius: 20px !important;
-    padding: 18px 25px !important;
-    margin-bottom: 10px !important;
+    border-radius: 24px !important;
+    padding: 20px 25px !important;
+    margin-bottom: 12px !important;
+    font-size: 15px;
+    line-height: 1.6;
 }}
+/* Assistant Bubble: Ethereal Glow */
 [data-testid="stChatMessage"]:not([data-testid*="user"]) > div {{
-    background: rgba(255, 255, 255, 0.07) !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+    background: rgba(30, 41, 59, 0.4) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(167, 139, 250, 0.15) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }}
+/* User Bubble: Deep Purple Gradient */
 [data-testid="stChatMessage"][data-testid*="user"] > div {{
-    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
+    background: linear-gradient(135deg, #4338ca, #6d28d9) !important;
+    box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
+    border: none !important;
 }}
 
-/* 4. Interaction Buttons (LIKE/DISLIKE/COPY) - TRONG VẮT & SÁNG */
+/* 5. Interaction Icons - Clean & Minimal */
 .stButton > button {{
-    background: transparent !important;
+    background: rgba(255, 255, 255, 0.02) !important;
     border: none !important;
-    color: #e2e8f0 !important;
+    color: #94a3b8 !important;
     font-size: 20px !important;
-    padding: 0 !important;
-    transition: all 0.3s ease !important;
-    opacity: 0.9;
+    padding: 5px !important;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
 }}
 .stButton > button:hover {{
-    transform: scale(1.3) !important;
-    opacity: 1 !important;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    color: #a78bfa !important;
+    transform: scale(1.2) translateY(-2px) !important;
+    background: transparent !important;
 }}
 
-/* 5. Action Button (Copy) */
+/* 6. Action Button (Copy) */
 .action-btn {{
     background: transparent !important;
     border: none !important;
-    color: #e2e8f0 !important;
+    color: #94a3b8;
     font-size: 20px !important;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.9;
 }}
 .action-btn:hover {{
-    transform: scale(1.3) !important;
-    opacity: 1 !important;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+    color: #38bdf8;
+    transform: scale(1.2);
 }}
 
-/* Animation chỉ dẫn */
-@keyframes glow-text {{
-    0% {{ text-shadow: 0 0 5px #f87171; opacity: 0.8; }}
-    50% {{ text-shadow: 0 0 20px #fb7185; opacity: 1; }}
-    100% {{ text-shadow: 0 0 5px #f87171; opacity: 0.8; }}
+/* 7. Chat Input - Floating Glass */
+[data-testid="stChatInput"] {{
+    background: transparent !important;
+    padding-bottom: 20px !important;
+}}
+[data-testid="stChatInput"] input {{
+    background: rgba(15, 23, 42, 0.6) !important;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 18px !important;
+    color: white !important;
+    transition: border 0.3s ease, box-shadow 0.3s ease !important;
+}}
+[data-testid="stChatInput"] input:focus {{
+    border: 1px solid rgba(167, 139, 250, 0.5) !important;
+    box-shadow: 0 0 30px rgba(167, 139, 250, 0.2) !important;
+}}
+
+/* 8. Pulsing Hint */
+@keyframes glow-hint {{
+    0% {{ color: #94a3b8; opacity: 0.5; }}
+    50% {{ color: #a78bfa; opacity: 1; text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); }}
+    100% {{ color: #94a3b8; opacity: 0.5; }}
 }}
 .feature-hint {{
-    animation: glow-text 2s infinite;
+    animation: glow-hint 3s infinite ease-in-out;
     font-size: 13px;
-    font-weight: bold;
-    color: #f87171;
+    font-weight: 500;
 }}
+
+/* Scrollbar */
+::-webkit-scrollbar {{ width: 5px; }}
+::-webkit-scrollbar-thumb {{ background: rgba(255,255,255,0.1); border-radius: 10px; }}
 </style>
 """, unsafe_allow_html=True)
 
@@ -183,13 +219,13 @@ html, body, .stApp {{
 if os.path.exists("background_due.jpg"):
     img_base64 = get_base64_image("background_due.jpg")
     st.markdown(f"""
-        <div class="header-container" style="display:flex; align-items:center; background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+        <div class="header-container" style="display:flex; align-items:center;">
             <div class="logo-box" style="margin-right:20px;">
-                <img src="data:image/jpg;base64,{img_base64}" style="border-radius: 15px; width:65px; height:65px; object-fit: cover;" />
+                <img src="data:image/jpg;base64,{img_base64}" style="border-radius: 14px; width:60px; height:60px; object-fit: cover;" />
             </div>
             <div class="title-box">
-                <h1 style="margin:0; font-size:24px; background: linear-gradient(90deg, #a78bfa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:800;">🎓 Trợ lý Sinh viên K17</h1>
-                <p style="margin:2px 0 0 0; color:#cbd5f1; font-size:13px; opacity:0.9;">Hệ thống tư vấn & tra cứu Handbook thông minh</p>
+                <h1 style="margin:0; font-size:22px; background: linear-gradient(90deg, #a78bfa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:800; letter-spacing:-0.5px;">🎓 Trợ lý Sinh viên K17</h1>
+                <p style="margin:0; color:#94a3b8; font-size:12px; font-weight:500; text-transform: uppercase; letter-spacing:1px;">Intelligent Assistant Portal</p>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -198,11 +234,11 @@ else:
 
 # Sidebar
 with st.sidebar:
-    st.markdown("<h2 style='text-align: center; color: #a78bfa;'>🚀 CÔNG CỤ</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center; color: #a78bfa; font-weight:800;'>🚀 CÔNG CỤ</h2>", unsafe_allow_html=True)
     
     # Tra cứu nhanh
     st.markdown("### 🔍 Tìm kiếm")
-    search_query = st.text_input("Từ khóa:", placeholder="VD: tốt nghiệp...", key="sidebar_search")
+    search_query = st.text_input("Từ khóa:", placeholder="Gõ để tìm...", key="sidebar_search")
     if search_query:
         handbook_path = "QTNNL-handbook.md"
         if os.path.exists(handbook_path):
@@ -231,7 +267,7 @@ with st.sidebar:
     # Quản trị
     with st.expander("🛠️ Admin"):
         admin_pw = st.text_input("Pass:", type="password")
-        if st.button("Logs"):
+        if st.button("Logs", use_container_width=True):
             if admin_pw == "0913" and os.path.exists("chat_log.json"):
                 with open("chat_log.json", "r", encoding="utf-8") as f:
                     st.write(f"Tổng: {len(json.load(f))}")
