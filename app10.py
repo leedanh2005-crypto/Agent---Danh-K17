@@ -480,7 +480,19 @@ if prompt:
         """, unsafe_allow_html=True)
 
         context = load_knowledge_base()
-        full_prompt = f"Dựa trên bối cảnh: {context}\n\nTrả lời thân thiện: {prompt}"
+        
+        # ĐIỀU CHỈNH PROMPT THEO CHẾ ĐỘ
+        if st.session_state.chat_mode == "🚀 Chế độ Career (Tư vấn mở rộng)":
+            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ CAREER: Ngoài Handbook, hãy dùng kiến thức chuyên môn rộng lớn của bạn về Quản trị nhân lực để tư vấn chuyên sâu, định hướng nghề nghiệp và kỹ năng cho sinh viên)."
+        else:
+            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ NGHIÊM NGẶT: Chỉ được phép trả lời dựa trên nội dung có trong Handbook. Nếu không tìm thấy thông tin, hãy hướng dẫn sinh viên liên hệ văn phòng Khoa)."
+
+        query_content = [f"Bối cảnh Handbook: {context}\n{instruction}\n\nCâu hỏi của sinh viên: {prompt}"]
+        
+        # NẾU CÓ FILE THÌ GỬI KÈM CHO AI PHÂN TÍCH
+        if st.session_state.get("file_analysis"):
+            f = st.session_state.file_analysis
+            query_content.insert(0, {"mime_type": f.type, "data": f.read()})
 
         # Cập nhật progress trong khi gọi API
         for step, (pct, text) in enumerate(zip([20, 50, 80], status_texts[1:])):
@@ -495,7 +507,7 @@ if prompt:
             """, unsafe_allow_html=True)
 
         try:
-            response = model.generate_content(full_prompt)
+            response = model.generate_content(query_content)
             full_text = response.text
 
             # 100% xong
@@ -524,6 +536,11 @@ if prompt:
             })
             save_to_log(prompt, full_text)
             st.rerun() # Dùng rerun ở cuối để đồng bộ giao diện và kích hoạt nút Copy/Like mượt mà nhất
+
+        except Exception as e:
+            progress_placeholder.empty()
+            st.error(f"Lỗi: {e}")
+Dùng rerun ở cuối để đồng bộ giao diện và kích hoạt nút Copy/Like mượt mà nhất
 
         except Exception as e:
             progress_placeholder.empty()
