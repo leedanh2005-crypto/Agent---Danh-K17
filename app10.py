@@ -95,96 +95,80 @@ def highlight_keywords(text):
         text = text.replace(kw.capitalize(), f"**{kw.capitalize()}**")
     return text
 
-# ===== CSS SIÊU CẤP: ĐỈNH CAO ĐỘ NÉT =====
+# ===== CSS SIÊU CẤP: LÀM SÁNG & HIỆU ỨNG ÁNH SÁNG =====
 st.markdown(f"""
 <style>
-/* 1. Animated Background */
+/* 1. Brightened Animated Background */
 @keyframes gradientBG {{
     0% {{ background-position: 0% 50%; }}
     50% {{ background-position: 100% 50%; }}
     100% {{ background-position: 0% 50%; }}
 }}
 html, body, .stApp {{
-    background: linear-gradient(-45deg, #050505, #1a1a2e, #0a0a1a, #16213e);
+    background: linear-gradient(-45deg, #1e1b4b, #312e81, #4c1d95, #1e1b4b);
     background-size: 400% 400%;
-    animation: gradientBG 20s ease infinite;
+    animation: gradientBG 15s ease infinite;
 }}
 
 /* 2. Sidebar Glassmorphism */
 [data-testid="stSidebar"] {{
-    background: rgba(0, 0, 0, 0.4) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
     backdrop-filter: blur(25px);
-    border-right: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.1);
 }}
 
-/* 3. Message Bubbles - Black Glass Style */
+/* 3. Message Bubbles - Làm trong hơn để sáng hơn */
 [data-testid="stChatMessage"] > div {{
     border-radius: 20px !important;
     padding: 18px 25px !important;
     margin-bottom: 10px !important;
 }}
-/* Bubble Trợ lý: Nền cực tối để Icon rực rỡ */
 [data-testid="stChatMessage"]:not([data-testid*="user"]) > div {{
-    background: rgba(15, 23, 42, 0.9) !important;
-    border: 1px solid rgba(167, 139, 250, 0.2) !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    background: rgba(255, 255, 255, 0.07) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
 }}
-/* Bubble Người dùng: Xanh Neon */
 [data-testid="stChatMessage"][data-testid*="user"] > div {{
-    background: linear-gradient(135deg, #2563eb, #1d4ed8) !important;
-    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.2);
+    background: linear-gradient(135deg, #4f46e5, #7c3aed) !important;
 }}
 
-/* 4. Interaction Buttons (LIKE/DISLIKE/COPY) - TRONG VẮT */
+/* 4. Interaction Buttons (LIKE/DISLIKE/COPY) - TRONG VẮT & SÁNG */
 .stButton > button {{
     background: transparent !important;
     border: none !important;
-    color: white !important;
-    font-size: 18px !important;
+    color: #e2e8f0 !important;
+    font-size: 20px !important;
     padding: 0 !important;
-    min-height: unset !important;
-    line-height: 1 !important;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
-    opacity: 0.8;
+    transition: all 0.3s ease !important;
+    opacity: 0.9;
 }}
 .stButton > button:hover {{
-    transform: scale(1.3) rotate(5deg) !important;
+    transform: scale(1.3) !important;
     opacity: 1 !important;
-    text-shadow: 0 0 15px rgba(167, 139, 250, 0.8);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }}
 
-/* 5. Action Button (Copy) - Style riêng */
+/* 5. Action Button (Copy) */
 .action-btn {{
     background: transparent !important;
     border: none !important;
-    color: white !important;
-    font-size: 18px !important;
+    color: #e2e8f0 !important;
+    font-size: 20px !important;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.8;
+    opacity: 0.9;
 }}
 .action-btn:hover {{
     transform: scale(1.3) !important;
     opacity: 1 !important;
-    text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
-}}
-
-/* 6. Glowing Chat Input */
-[data-testid="stChatInput"] {{
-    background: transparent !important;
-}}
-[data-testid="stChatInput"] input {{
-    background: rgba(30, 41, 59, 0.8) !important;
-    border: 1px solid rgba(167, 139, 250, 0.4) !important;
-    border-radius: 15px !important;
-    color: white !important;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
 }}
 
 /* Animation chỉ dẫn */
 @keyframes glow-text {{
-    0% {{ text-shadow: 0 0 5px #f87171; opacity: 0.6; }}
+    0% {{ text-shadow: 0 0 5px #f87171; opacity: 0.8; }}
     50% {{ text-shadow: 0 0 20px #fb7185; opacity: 1; }}
-    100% {{ text-shadow: 0 0 5px #f87171; opacity: 0.6; }}
+    100% {{ text-shadow: 0 0 5px #f87171; opacity: 0.8; }}
 }}
 .feature-hint {{
     animation: glow-text 2s infinite;
@@ -199,13 +183,13 @@ html, body, .stApp {{
 if os.path.exists("background_due.jpg"):
     img_base64 = get_base64_image("background_due.jpg")
     st.markdown(f"""
-        <div class="header-container" style="display:flex; align-items:center; background:rgba(255,255,255,0.03); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1);">
+        <div class="header-container" style="display:flex; align-items:center; background:rgba(255,255,255,0.05); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
             <div class="logo-box" style="margin-right:20px;">
                 <img src="data:image/jpg;base64,{img_base64}" style="border-radius: 15px; width:65px; height:65px; object-fit: cover;" />
             </div>
             <div class="title-box">
                 <h1 style="margin:0; font-size:24px; background: linear-gradient(90deg, #a78bfa, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight:800;">🎓 Trợ lý Sinh viên K17</h1>
-                <p style="margin:2px 0 0 0; color:#cbd5f1; font-size:13px; opacity:0.8;">Hệ thống tư vấn & tra cứu Handbook thông minh</p>
+                <p style="margin:2px 0 0 0; color:#cbd5f1; font-size:13px; opacity:0.9;">Hệ thống tư vấn & tra cứu Handbook thông minh</p>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -258,7 +242,8 @@ st.markdown("""
 function copyText(id) {
     const el = document.getElementById(id);
     if (!el) return;
-    navigator.clipboard.writeText(el.innerText || el.textContent).then(function() {
+    const textToCopy = el.innerText || el.textContent;
+    navigator.clipboard.writeText(textToCopy).then(function() {
         const btn = document.getElementById('copybtn_' + id);
         if (btn) {
             btn.innerHTML = '✅';
@@ -307,7 +292,6 @@ for i, message in enumerate(st.session_state.messages):
         rating = st.session_state.ratings.get(msg_id, None)
         safe_content = message["content"].replace('"', '&quot;').replace('<', '&lt;').replace('>', '&gt;').replace('\n', ' ')
         
-        # Row icon tương tác: Siêu tối giản
         st.markdown('<div style="margin-top: -15px;"></div>', unsafe_allow_html=True)
         c1, c2, c3, _ = st.columns([0.8, 0.8, 0.8, 9.6])
         with c1:
@@ -347,10 +331,15 @@ if prompt:
         prog.markdown('<div style="background:rgba(255,255,255,0.05);height:2px;width:100%;"><div style="background:#a78bfa;height:2px;width:40%;"></div></div>', unsafe_allow_html=True)
         
         ctx = load_knowledge_base()
+        # ĐIỀU CHỈNH PROMPT SIÊU NGHIÊM NGẶT
         if "Tư vấn" in st.session_state.chat_mode:
             inst = "(BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Hãy hóa thân thành chuyên gia HR, trả lời thật CHI TIẾT, THÂN THIỆN và sâu sắc)."
         else:
-            inst = "(BẠN ĐANG Ở CHẾ ĐỘ TRA CỨU: Trả lời đầy đủ, chi tiết dựa trên Handbook, giữ giọng điệu người tiền bối ấm áp)."
+            inst = """
+            (BẠN ĐANG Ở CHẾ ĐỘ TRA CỨU: Bạn chỉ được phép trả lời dựa trên nội dung CÓ TRONG Handbook. 
+            NẾU THÔNG TIN KHÔNG CÓ TRONG HANDBOOK, BẠN TUYỆT ĐỐI KHÔNG ĐƯỢC TỰ Ý TRẢ LỜI. 
+            Trong trường hợp đó, hãy trả lời chính xác như sau: 'Rất tiếc, thông tin này không có trong Handbook K17, bạn vui lòng liên hệ Văn phòng Khoa để được hỗ trợ chính xác nhất'.)
+            """
         
         query = [f"Bối cảnh: {ctx}\n{inst}\n\nHãy trả lời thật chi tiết và giúp ích: {prompt}"]
         if st.session_state.get("file_analysis"):
