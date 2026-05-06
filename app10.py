@@ -209,6 +209,31 @@ html, body, .stApp {{
     font-weight: bold;
 }}
 
+/* 9. NÂNG CẤP PROGRESS BAR NEON */
+.status-text {{
+    font-size: 12px;
+    color: #a78bfa;
+    margin-bottom: 5px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}}
+.progress-container {{
+    background: rgba(255, 255, 255, 0.05);
+    height: 4px;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}}
+.progress-bar {{
+    background: linear-gradient(90deg, #a78bfa, #38bdf8);
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(167, 139, 250, 0.6);
+    transition: width 0.5s ease-in-out;
+}}
+
 /* Scrollbar */
 ::-webkit-scrollbar {{ width: 5px; }}
 ::-webkit-scrollbar-thumb {{ background: rgba(255,255,255,0.1); border-radius: 10px; }}
@@ -314,7 +339,7 @@ if len(st.session_state.messages) == 0:
     💡 **HỖ TRỢ TỐT NHẤT:**
     *   🔍 **Tra cứu (Sidebar):** Xem nhanh nội dung Handbook.
     *   🤖 **Hỏi đáp AI:** Giải đáp chuyên sâu mọi vấn đề.
-    *   ➕ **Tính năng mới (Dấu cộng):** Phân tích tệp tin/bảng điểm và chuyển đổi linh hoạt giữa **Chế độ Tra cứu** (Đúng quy định) & **Chế độ Tư vấn** (Định hướng nghề nghiệp).
+    *   ➕ **Dấu cộng (+):** Phân tích tệp tin/bảng điểm và chuyển đổi linh hoạt giữa **Chế độ Tra cứu** (Đúng quy định) & **Chế độ Tư vấn** (Định hướng nghề nghiệp).
     """
     with st.chat_message("assistant"): st.markdown(loi_chao)
 
@@ -371,11 +396,21 @@ if prompt:
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"): st.markdown(prompt)
     with st.chat_message("assistant"):
-        prog = st.empty()
-        prog.markdown('<div style="background:rgba(255,255,255,0.05);height:2px;width:100%;"><div style="background:#a78bfa;height:2px;width:40%;"></div></div>', unsafe_allow_html=True)
+        prog_placeholder = st.empty()
         
+        # Hàm vẽ Progress Bar tùy chỉnh
+        def update_prog(text, width):
+            prog_placeholder.markdown(f"""
+                <div class="status-text">{text}</div>
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: {width}%;"></div>
+                </div>
+            """, unsafe_allow_html=True)
+
+        update_prog("🔍 Đang quét tri thức Handbook...", 20)
         ctx = load_knowledge_base()
-        # ĐIỀU CHỈNH PROMPT SIÊU NGHIÊM NGẶT
+        
+        update_prog("🧠 Chuyên gia AI đang phân tích...", 50)
         if "Tư vấn" in st.session_state.chat_mode:
             inst = """
             (BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Bạn là Hội đồng Chuyên gia HR cao cấp. 
@@ -399,6 +434,7 @@ if prompt:
         success = False; attempts = 0; keys = VALID_KEYS.copy(); random.shuffle(keys)
         while not success and attempts < len(keys):
             try:
+                update_prog("✍️ Đang soạn câu trả lời chi tiết...", 85)
                 model = configure_genai(keys[attempts])
                 resp = model.generate_content(query)
                 full_text = resp.text; success = True
@@ -407,7 +443,10 @@ if prompt:
                 if "429" not in str(e): st.error(f"Lỗi hệ hệ thống: {e}"); st.stop()
         
         if success:
-            prog.empty()
+            update_prog("✅ Hoàn tất!", 100)
+            time.sleep(0.5)
+            prog_placeholder.empty()
+            
             placeholder = st.empty(); typed = ""
             for char in full_text:
                 typed += char; placeholder.markdown(highlight_keywords(typed)); time.sleep(0.005)
