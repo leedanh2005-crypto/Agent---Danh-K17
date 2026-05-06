@@ -530,7 +530,14 @@ if prompt:
         
         # ĐIỀU CHỈNH PROMPT THEO CHẾ ĐỘ
         if st.session_state.chat_mode == "🚀 Chế độ Tư vấn (Định hướng nghề)":
-            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Ngoài Handbook, hãy dùng kiến thức chuyên môn rộng lớn của bạn về Quản trị nhân lực để tư vấn chuyên sâu, định hướng nghề nghiệp và kỹ năng cho sinh viên)."
+            instruction = """
+            (BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Hãy dùng kiến thức chuyên gia HR để tư vấn nghề nghiệp. 
+            ĐẶC BIỆT: Nếu câu hỏi về Tuyển dụng/Tìm người, hãy áp dụng KỸ NĂNG PERSONA để phân tích:
+            1. Nhân khẩu học: Độ tuổi, học vấn, kinh nghiệm.
+            2. Mục tiêu & Động lực: Họ thực sự muốn gì?
+            3. Nỗi đau (Pain points): Những khó khăn họ đang gặp phải ở công việc cũ.
+            4. Hành vi & Chiến lược: Tiếp cận họ ở đâu và bằng thông điệp gì?)
+            """
         else:
             instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ TRA CỨU: Chỉ được phép trả lời dựa trên nội dung có trong Handbook. Nếu không tìm thấy thông tin, hãy hướng dẫn sinh viên liên hệ văn phòng Khoa)."
 
@@ -604,6 +611,4 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
-            st.rerun()
-, full_text)
             st.rerun()
