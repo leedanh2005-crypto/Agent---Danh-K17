@@ -98,44 +98,17 @@ def highlight_keywords(text):
 # ===== CSS SIÊU CẤP: MIDNIGHT GLASSMORPHISM (MỜ ẢO & CHUYÊN NGHIỆP) =====
 st.markdown(f"""
 <style>
-/* 1. Deep Space Background with Glowing Aura Blobs */
+/* 1. Deep Space Background with Subtle Motion */
 @keyframes atmospheric {{
     0% {{ background-position: 0% 0%; }}
     50% {{ background-position: 100% 100%; }}
     100% {{ background-position: 0% 0%; }}
 }}
-@keyframes aura-float {{
-    0% {{ transform: translate(0, 0) scale(1); }}
-    33% {{ transform: translate(30px, -50px) scale(1.1); }}
-    66% {{ transform: translate(-20px, 20px) scale(0.9); }}
-    100% {{ transform: translate(0, 0) scale(1); }}
-}}
 html, body, .stApp {{
-    background: #020617;
+    background: radial-gradient(circle at top right, #1e1b4b, #020617),
+                radial-gradient(circle at bottom left, #0f172a, #020617);
     background-attachment: fixed;
     color: #f1f5f9;
-    overflow-x: hidden;
-}}
-.stApp::before, .stApp::after {{
-    content: "";
-    position: fixed;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.15;
-}}
-.stApp::before {{
-    background: radial-gradient(circle at 20% 30%, #4338ca 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, #7c3aed 0%, transparent 40%);
-    animation: aura-float 20s infinite linear;
-}}
-.stApp::after {{
-    background: radial-gradient(circle at 70% 20%, #0ea5e9 0%, transparent 35%),
-                radial-gradient(circle at 30% 80%, #6366f1 0%, transparent 35%);
-    animation: aura-float 25s infinite linear reverse;
 }}
 
 /* 2. Professional Glass Sidebar */
@@ -163,12 +136,12 @@ html, body, .stApp {{
     font-size: 15px;
     line-height: 1.6;
 }}
-/* Assistant Bubble: Ethereal Glow */
+/* Assistant Bubble: Deep midnight for high contrast */
 [data-testid="stChatMessage"]:not([data-testid*="user"]) > div {{
-    background: rgba(30, 41, 59, 0.4) !important;
+    background: rgba(15, 23, 42, 0.9) !important;
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(167, 139, 250, 0.15) !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    border: 1px solid rgba(167, 139, 250, 0.2) !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }}
 /* User Bubble: Deep Purple Gradient */
 [data-testid="stChatMessage"][data-testid*="user"] > div {{
@@ -177,47 +150,47 @@ html, body, .stApp {{
     border: none !important;
 }}
 
-/* 5. Interaction Icons - Clean & Minimal */
+/* 5. Interaction Icons - Transparent & Glowing on hover */
 .stButton > button {{
-    background: rgba(255, 255, 255, 0.02) !important;
+    background: transparent !important;
     border: none !important;
-    color: #94a3b8 !important;
-    font-size: 20px !important;
-    padding: 5px !important;
-    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+    color: white !important;
+    font-size: 18px !important;
+    padding: 0 !important;
+    min-height: unset !important;
+    line-height: 1 !important;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    opacity: 0.8;
 }}
 .stButton > button:hover {{
-    color: #a78bfa !important;
-    transform: scale(1.2) translateY(-2px) !important;
-    background: transparent !important;
+    transform: scale(1.3) rotate(5deg) !important;
+    opacity: 1 !important;
+    text-shadow: 0 0 15px rgba(167, 139, 250, 0.8);
 }}
 
 /* 6. Action Button (Copy) */
 .action-btn {{
     background: transparent !important;
     border: none !important;
-    color: #94a3b8;
-    font-size: 20px !important;
+    color: white !important;
+    font-size: 18px !important;
     cursor: pointer;
     transition: all 0.3s ease;
+    opacity: 0.8;
 }}
 .action-btn:hover {{
-    color: #38bdf8;
-    transform: scale(1.2);
+    transform: scale(1.3) !important;
+    opacity: 1 !important;
+    text-shadow: 0 0 15px rgba(56, 189, 248, 0.8);
 }}
 
 /* 7. Chat Input - Floating Glass */
-[data-testid="stChatInput"] {{
-    background: transparent !important;
-    padding-bottom: 20px !important;
-}}
 [data-testid="stChatInput"] input {{
     background: rgba(15, 23, 42, 0.6) !important;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 18px !important;
     color: white !important;
-    transition: border 0.3s ease, box-shadow 0.3s ease !important;
 }}
 [data-testid="stChatInput"] input:focus {{
     border: 1px solid rgba(167, 139, 250, 0.5) !important;
@@ -226,14 +199,14 @@ html, body, .stApp {{
 
 /* 8. Pulsing Hint */
 @keyframes glow-hint {{
-    0% {{ color: #94a3b8; opacity: 0.5; }}
-    50% {{ color: #a78bfa; opacity: 1; text-shadow: 0 0 10px rgba(167, 139, 250, 0.5); }}
-    100% {{ color: #94a3b8; opacity: 0.5; }}
+    0% {{ color: #f87171; opacity: 0.6; }}
+    50% {{ color: #fb7185; opacity: 1; text-shadow: 0 0 10px #f87171; }}
+    100% {{ color: #f87171; opacity: 0.6; }}
 }}
 .feature-hint {{
     animation: glow-hint 3s infinite ease-in-out;
     font-size: 13px;
-    font-weight: 500;
+    font-weight: bold;
 }}
 
 /* Scrollbar */
@@ -282,7 +255,7 @@ with st.sidebar:
     c_a, c_b = st.columns(2)
     with c_a:
         st.link_button("🌐 Web", "https://due.udn.vn/", use_container_width=True)
-        st.link_button("📊 Điểm", "http://daotao.due.udn.vn/", use_container_width=True)
+        st.link_button("📊 Tra điểm", "http://daotao.due.udn.vn/", use_container_width=True)
     with c_b:
         st.link_button("📚 HR", "https://sites.google.com/view/quantringuonnhanluc", use_container_width=True)
         st.link_button("🏢 QTKD", "https://due.udn.vn/vi-vn/khoa/quan-tri-kinh-doanh", use_container_width=True)
@@ -341,7 +314,7 @@ if len(st.session_state.messages) == 0:
     💡 **HỖ TRỢ TỐT NHẤT:**
     *   🔍 **Tra cứu (Sidebar):** Xem nhanh nội dung Handbook.
     *   🤖 **Hỏi đáp AI:** Giải đáp chuyên sâu mọi vấn đề.
-    *   ➕ **Dấu cộng (+):** Phân tích tệp & đổi chế độ **Tra cứu / Tư vấn**.
+    *   ➕ **Tính năng mới (Dấu cộng):** Phân tích tệp tin/bảng điểm và chuyển đổi linh hoạt giữa **Chế độ Tra cứu** (Đúng quy định) & **Chế độ Tư vấn** (Định hướng nghề nghiệp).
     """
     with st.chat_message("assistant"): st.markdown(loi_chao)
 
@@ -367,20 +340,28 @@ for i, message in enumerate(st.session_state.messages):
             st.markdown(f'<span id="content_{msg_id}" style="display:none">{safe_content}</span><button class="action-btn" id="copybtn_content_{msg_id}" onclick="copyText(\'content_{msg_id}\')">📋</button>', unsafe_allow_html=True)
         assistant_index += 1
 
-# ===== THANH CHAT =====
+# ===== GIAO DIỆN THANH CHAT NÂNG CẤP (DẤU CỘNG) =====
 with st.container():
-    col_p, col_h, col_m = st.columns([0.6, 2.5, 6.9])
-    with col_p:
-        with st.popover("➕"):
-            st.markdown("### 🎓 TIỆN ÍCH")
-            up_file = st.file_uploader("Phân tích tệp", type=['pdf', 'png', 'jpg'], key="file_analysis")
+    col_plus, col_hint, col_info = st.columns([0.6, 3, 6])
+    with col_plus:
+        with st.popover("➕", help="Thêm tính năng nâng cao"):
+            st.markdown("### 🎓 Tiện ích thông minh")
+            uploaded_file = st.file_uploader("Phân tích bảng điểm/Ảnh (PDF/JPG/PNG)", type=['pdf', 'png', 'jpg'], key="file_analysis")
+            if uploaded_file:
+                st.success("✅ Đã nhận tệp! Hãy đặt câu hỏi về tệp này.")
+
             st.divider()
-            mode = st.radio("Chế độ:", ["📍 Chế độ Tra cứu (Nghiêm ngặt)", "🚀 Chế độ Tư vấn (Định hướng nghề)"], index=0 if "Tra cứu" in st.session_state.chat_mode else 1)
-            if mode != st.session_state.chat_mode: st.session_state.chat_mode = mode; st.rerun()
-    with col_h:
+            st.markdown("### ⚙️ Cấu hình AI")
+            mode = st.radio("Chọn chế độ trả lời:", 
+                            ["📍 Chế độ Tra cứu (Nghiêm ngặt)", "🚀 Chế độ Tư vấn (Định hướng nghề)"],
+                            index=0 if "Tra cứu" in st.session_state.chat_mode else 1)
+            if mode != st.session_state.chat_mode:
+                st.session_state.chat_mode = mode
+                st.rerun()
+    with col_hint:
         if not st.session_state.get("file_analysis"):
-            st.markdown('<span class="feature-hint">⬅️ Nâng cao</span>', unsafe_allow_html=True)
-    with col_m:
+            st.markdown('<span class="feature-hint">⬅️ Tính năng nâng cao</span>', unsafe_allow_html=True)
+    with col_info:
         st.caption(f"Đang dùng: {st.session_state.chat_mode}")
 
 prompt = st.chat_input("Bạn đang thắc mắc điều gì?")
@@ -417,7 +398,7 @@ if prompt:
                 full_text = resp.text; success = True
             except Exception as e:
                 attempts += 1
-                if "429" not in str(e): st.error(f"Lỗi: {e}"); st.stop()
+                if "429" not in str(e): st.error(f"Lỗi hệ hệ thống: {e}"); st.stop()
         
         if success:
             prog.empty()
