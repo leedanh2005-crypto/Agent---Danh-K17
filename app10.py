@@ -481,6 +481,10 @@ with st.container():
             if uploaded_file:
                 st.success("✅ Đã nhận tệp! Hãy đặt câu hỏi về tệp này.")
             
+            if st.button("🎭 Phác họa Chân dung ứng viên (Persona)", use_container_width=True):
+                st.session_state.suggested_prompt = "Hãy phác họa Chân dung ứng viên lý tưởng cho vị trí [TÊN VỊ TRÍ] theo cấu trúc chuyên sâu: Nhân khẩu, Mục tiêu, Nỗi đau và Hành vi."
+                st.rerun()
+
             st.divider()
             st.markdown("### ⚙️ Cấu hình AI")
             mode = st.radio("Chọn chế độ trả lời:", 
@@ -600,4 +604,6 @@ if prompt:
                 "content": highlighted
             })
             save_to_log(prompt, full_text)
+            st.rerun()
+, full_text)
             st.rerun()
