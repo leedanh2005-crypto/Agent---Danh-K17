@@ -483,8 +483,8 @@ with st.container():
             st.divider()
             st.markdown("### ⚙️ Cấu hình AI")
             mode = st.radio("Chọn chế độ trả lời:", 
-                            ["📍 Chế độ Handbook (Nghiêm ngặt)", "🚀 Chế độ Career (Tư vấn mở rộng)"],
-                            index=0 if st.session_state.chat_mode == "📍 Chế độ Handbook (Nghiêm ngặt)" else 1)
+                            ["📍 Chế độ Tra cứu (Nghiêm ngặt)", "🚀 Chế độ Tư vấn (Định hướng nghề)"],
+                            index=0 if st.session_state.chat_mode == "📍 Chế độ Tra cứu (Nghiêm ngặt)" else 1)
             if mode != st.session_state.chat_mode:
                 st.session_state.chat_mode = mode
                 st.rerun()
@@ -524,10 +524,10 @@ if prompt:
         context = load_knowledge_base()
         
         # ĐIỀU CHỈNH PROMPT THEO CHẾ ĐỘ
-        if st.session_state.chat_mode == "🚀 Chế độ Career (Tư vấn mở rộng)":
-            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ CAREER: Ngoài Handbook, hãy dùng kiến thức chuyên môn rộng lớn của bạn về Quản trị nhân lực để tư vấn chuyên sâu, định hướng nghề nghiệp và kỹ năng cho sinh viên)."
+        if st.session_state.chat_mode == "🚀 Chế độ Tư vấn (Định hướng nghề)":
+            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ TƯ VẤN: Ngoài Handbook, hãy dùng kiến thức chuyên môn rộng lớn của bạn về Quản trị nhân lực để tư vấn chuyên sâu, định hướng nghề nghiệp và kỹ năng cho sinh viên)."
         else:
-            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ NGHIÊM NGẶT: Chỉ được phép trả lời dựa trên nội dung có trong Handbook. Nếu không tìm thấy thông tin, hãy hướng dẫn sinh viên liên hệ văn phòng Khoa)."
+            instruction = "\n(BẠN ĐANG Ở CHẾ ĐỘ TRA CỨU: Chỉ được phép trả lời dựa trên nội dung có trong Handbook. Nếu không tìm thấy thông tin, hãy hướng dẫn sinh viên liên hệ văn phòng Khoa)."
 
         query_content = [f"Bối cảnh Handbook: {context}\n{instruction}\n\nCâu hỏi của sinh viên: {prompt}"]
         
