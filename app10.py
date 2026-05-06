@@ -480,10 +480,6 @@ with st.container():
             uploaded_file = st.file_uploader("Phân tích bảng điểm/Ảnh (PDF/JPG/PNG)", type=['pdf', 'png', 'jpg'], key="file_analysis")
             if uploaded_file:
                 st.success("✅ Đã nhận tệp! Hãy đặt câu hỏi về tệp này.")
-            
-            if st.button("🎭 Phác họa Chân dung ứng viên (Persona)", use_container_width=True):
-                st.session_state.suggested_prompt = "Hãy phác họa Chân dung ứng viên lý tưởng cho vị trí [TÊN VỊ TRÍ] theo cấu trúc chuyên sâu: Nhân khẩu, Mục tiêu, Nỗi đau và Hành vi."
-                st.rerun()
 
             st.divider()
             st.markdown("### ⚙️ Cấu hình AI")
