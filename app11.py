@@ -12,14 +12,22 @@ from email.mime.multipart import MIMEMultipart
 import random
 
 # --- 1. CẤU HÌNH API KEY ---
-API_KEYS = [
-    "AIzaSyBSH9Hg8s8_kdVTCMcjo7ULH-NZk4Tx4XA", # API Chính
-    "AIzaSyBktMdWJ6QSDfK6c4VqnfOaZLtU6ZLwpn8", # API Backup 1
-    "AIzaSyBgApLVBR8HTof40s4R_tuH3KKXc6TyDhA", # API Backup 2
-    "AIzaSyAL3lt2KGkh1eY9UZuOCKT0HqCYImS9aFo", # API Backup 3
-    "AIzaSyAPcvGxu5e0o-_BRoxBM4ilam-o-7LwzEk", # API Backup 4
-]
-VALID_KEYS = [k for k in API_KEYS if k]
+# Hệ thống sẽ ưu tiên lấy danh sách Key từ Secrets của Streamlit (an toàn nhất)
+API_KEYS = st.secrets.get("GEMINI_API_KEYS", [])
+
+# Nếu chạy local hoặc chưa có Secrets, hãy dán Key mới vào đây
+if not API_KEYS:
+    API_KEYS = [
+        "VUI_LONG_THAY_KEY_MOI_VAO_DAY",
+        "VUI_LONG_THAY_KEY_MOI_VAO_DAY",
+    ]
+
+VALID_KEYS = [k for k in API_KEYS if k and "VUI_LONG" not in k]
+
+if not VALID_KEYS:
+    st.error("❌ Lỗi: API Key đã bị khóa hoặc chưa được cấu hình!")
+    st.info("💡 Cách fix: Hãy tạo Key mới tại Google AI Studio và dán vào phần Secrets trên Streamlit Cloud.")
+    st.stop()
 
 if not VALID_KEYS:
     st.error("❌ Không tìm thấy API key hợp lệ!")
