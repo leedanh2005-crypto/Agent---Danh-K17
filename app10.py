@@ -29,7 +29,7 @@ if not VALID_KEYS:
 # Hàm cấu hình model với key cụ thể
 def configure_genai(api_key):
     genai.configure(api_key=api_key)
-    return genai.GenerativeModel('gemini-flash-latest')
+    return genai.GenerativeModel('gemini-2.5-flash')
 
 # Khởi tạo mặc định
 model = configure_genai(random.choice(VALID_KEYS))
