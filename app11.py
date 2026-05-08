@@ -18,8 +18,8 @@ API_KEYS = st.secrets.get("GEMINI_API_KEYS", [])
 # Nếu chạy local hoặc chưa có Secrets, hãy dán Key mới vào đây
 if not API_KEYS:
     API_KEYS = [
-        "VUI_LONG_THAY_KEY_MOI_VAO_DAY",
-        "VUI_LONG_THAY_KEY_MOI_VAO_DAY",
+        "AIzaSyD9VD6vw-RsbwnnU7k5xvUU5bRaEkR73l0", # API Chính mới
+        "AIzaSyA-8hCADd2xiY-QdzTfOvfqV6GvPTfg1Wc", # API Backup 1 mới
     ]
 
 VALID_KEYS = [k for k in API_KEYS if k and "VUI_LONG" not in k]
