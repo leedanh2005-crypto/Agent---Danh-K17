@@ -543,9 +543,14 @@ if prompt:
                 model = configure_genai(keys[attempts])
                 resp = model.generate_content(query)
                 full_text = resp.text if hasattr(resp, 'text') else "Dữ liệu bị chặn."; success = True
-            except Exception:
+            except Exception as e:
                 attempts += 1
-                if attempts >= len(keys): st.error("Lỗi kết nối AI."); st.stop()
+                last_error = str(e)
+                if attempts >= len(keys): 
+                    st.error(f"❌ Lỗi kết nối AI: {last_error}")
+                    if "429" in last_error:
+                        st.warning("💡 Gợi ý: Hết hạn ngạch API. Hãy thử lại sau.")
+                    st.stop()
                 time.sleep(1)
 
         update_prog(ui["finalizing"], 100); time.sleep(0.3); prog_placeholder.empty()
