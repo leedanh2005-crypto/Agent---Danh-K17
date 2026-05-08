@@ -13,9 +13,7 @@ import random
 import re
 
 # --- 1. CẤU HÌNH API KEY ---
-# Ưu tiên lấy từ st.secrets (dành cho Streamlit Cloud) hoặc danh sách cứng
 API_KEYS = [
-    st.secrets.get("GEMINI_API_KEY"),
     "AIzaSyBSH9Hg8s8_kdVTCMcjo7ULH-NZk4Tx4XA", # API Chính
     "AIzaSyBktMdWJ6QSDfK6c4VqnfOaZLtU6ZLwpn8", # API Backup 1
     "AIzaSyBgApLVBR8HTof40s4R_tuH3KKXc6TyDhA", # API Backup 2
