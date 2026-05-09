@@ -608,7 +608,7 @@ if st.session_state.messages and st.session_state.messages[-1]["role"] == "user"
                 up_p(f"{ui['writing']} (Key {attempts+1})", 85)
                 # Configure with the specific key
                 genai.configure(api_key=keys[attempts])
-                current_model = genai.GenerativeModel('gemini-2.5-flash')
+                current_model = genai.GenerativeModel('gemini-flash-latest')
                 resp = current_model.generate_content(query)
                 full_text = resp.text
                 success = True
