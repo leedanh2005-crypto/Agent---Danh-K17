@@ -339,7 +339,7 @@ with st.sidebar:
         st.info(UI_LANG[lang]["verified_hint"])
     else:
         st.markdown("<h2 style='text-align: center; color: #a78bfa; font-weight:800;'>🚀 CÔNG CỤ</h2>", unsafe_allow_html=True)
-        st.markdown("### 🔍 Tìm kiếm")
+        st.markdown("### 🔍 Tra cứu sổ tay")
         sq = st.text_input("Từ khóa:", key="sb_search", placeholder="Gõ để tìm...")
         if sq and os.path.exists("QTNNL-handbook.md"):
             with open("QTNNL-handbook.md", "r", encoding="utf-8") as f: content = f.read()
