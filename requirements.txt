@@ -1,3 +1,7 @@
 streamlit
 google-generativeai
 gTTS
+pandas
+plotly
+wordcloud
+matplotlib
