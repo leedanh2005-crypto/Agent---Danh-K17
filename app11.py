@@ -428,7 +428,7 @@ else:
     with st.container():
         st.markdown("<p style='color: #94a3b8; font-size: 13px; font-weight: 500; margin-bottom: 5px;'>💡 GỢI Ý CHO BẠN:</p>", unsafe_allow_html=True)
         s1, s2, s3 = st.columns(3)
-        if s1.button("🧭 Tổng cộng các học phần phải học", key="sug_1", use_container_width=True): st.session_state.suggested_prompt = "🧭 Cho mình biết tổng cộng các học phần và số tín chỉ phải học trong toàn bộ chương trình đào tạo ngành Quản trị nhân lực."; st.rerun()
+        if s1.button("🧭 Học phần Tuyển dụng có bao nhiêu tín", key="sug_1", use_container_width=True): st.session_state.suggested_prompt = "🧭 Cho mình biết học phần Tuyển dụng có bao nhiêu tín chỉ và nội dung chính của môn này là gì?"; st.rerun()
         if s2.button("🎓 Quy định tốt nghiệp", key="sug_2", use_container_width=True): st.session_state.suggested_prompt = "🎓 Những điều kiện quan trọng nhất để được xét tốt nghiệp ngành Quản trị nhân lực là gì?"; st.rerun()
         if s3.button("💰 Tốt nghiệp sớm được không?", key="sug_3", use_container_width=True): st.session_state.suggested_prompt = "💰 Mình có thể tốt nghiệp sớm được không? Điều kiện và lộ trình để ra trường sớm là gì?"; st.rerun()
 
