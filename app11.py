@@ -52,9 +52,8 @@ except Exception:
 
 if not API_KEYS:
     API_KEYS = [
-        "AIzaSyCj4pscK0i9elDxr9vdjBJfDEoN6JB78Ik",
-        "AIzaSyCOtyj9DzIJzCMVuYnD1t6Y7QfxulXDrOA",
-        "AIzaSyA5WUHRZrtN5VTZ-hPOXflktQVj0LdY1Aw",
+        "AIzaSyAcOaigysPHQqtjKc9x4mAvCqbTnMwD1TQ", # API Chính mới
+        "AIzaSyCsrTVxw5T2Env91yG4g7bxCciYD04bEPM", # API Backup
     ]
 
 VALID_KEYS = [k for k in API_KEYS if k and "VUI_LONG" not in k]
