@@ -59,12 +59,7 @@ VALID_KEYS = [k for k in API_KEYS if k and "VUI_LONG" not in k]
 
 if not VALID_KEYS:
     st.error("❌ Lỗi bảo mật: Không tìm thấy API Key trong hệ thống Secrets!")
-    st.info("""
-    **Cách khắc phục cho Admin:**
-    1. **Trên Web:** Vào Settings -> Secrets trên Streamlit Cloud và dán:
-       `GEMINI_API_KEYS = ["AIzaSyBzHUrxMy8sYs0Waj-RZVJjOgNXmMfriOA"]`
-    2. **Chạy Local:** Tạo thư mục `.streamlit`, tạo file `secrets.toml` bên trong và dán dòng trên vào.
-    """)
+    st.info("💡 Hướng dẫn cho Admin: Vui lòng kiểm tra và dán API Key hợp lệ vào mục Secrets trên Streamlit Cloud hoặc file secrets.toml cục bộ để kích hoạt ứng dụng.")
     st.stop()
 
 def configure_genai(api_key):
