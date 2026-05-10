@@ -51,16 +51,20 @@ except Exception:
     API_KEYS = []
 
 if not API_KEYS:
-    API_KEYS = [
-        "AIzaSyA4s9vjvkNp2JVR3gZ4WfbYWJ2bBcNuJHo", # API Chính mới
-        "AIzaSyATw60Z_D-Acr8-f5eGEo1tzskQmn6buHU", # API 2
-        "AIzaSyBK9JQK5D53yLJYc-dJZomIx8d-Ngys5ps", # API 3
-    ]
+    # PHÒNG NGỪA RÒ RỈ (Repo Công khai): Tuyệt đối không dán mã API thật vào đây.
+    # Hãy dán mã API vào mục Secrets trên Streamlit Cloud hoặc file secrets.toml cục bộ.
+    API_KEYS = [] 
 
 VALID_KEYS = [k for k in API_KEYS if k and "VUI_LONG" not in k]
 
 if not VALID_KEYS:
-    st.error("❌ Lỗi: API Key chưa được cấu hình!")
+    st.error("❌ Lỗi bảo mật: Không tìm thấy API Key trong hệ thống Secrets!")
+    st.info("""
+    **Cách khắc phục cho Admin:**
+    1. **Trên Web:** Vào Settings -> Secrets trên Streamlit Cloud và dán:
+       `GEMINI_API_KEYS = ["AIzaSyBzHUrxMy8sYs0Waj-RZVJjOgNXmMfriOA"]`
+    2. **Chạy Local:** Tạo thư mục `.streamlit`, tạo file `secrets.toml` bên trong và dán dòng trên vào.
+    """)
     st.stop()
 
 def configure_genai(api_key):
