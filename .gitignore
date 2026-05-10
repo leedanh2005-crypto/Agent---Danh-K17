@@ -1,0 +1,13 @@
+# Streamlit secrets
+.streamlit/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local environment files
+.env
+
+# Logs and large data (Optional, but recommended for privacy)
+# chat_log.json
+# chat_history.csv

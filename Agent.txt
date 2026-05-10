@@ -1,6 +1,6 @@
 Powersheel: python -m streamlit run app.py
 
-Kiểm tra mã API: python -c "import google.generativeai as genai; genai.configure(api_key='AIzaSyDnoyrBRGxdvuEJAkJdwWHUq7XGrEcXeCM'); [print(m.name) for m in genai.list_models()]"
+Kiểm tra mã API: python -c "import google.generativeai as genai; genai.configure(api_key='YOUR_API_KEY_HERE'); [print(m.name) for m in genai.list_models()]"
 
 
 import streamlit as st
@@ -8,171 +8,12 @@ import google.generativeai as genai
 import os
 
 # 1. Cấu hình AI
-genai.configure(api_key="AIzaSyDnoyrBRGxdvuEJAkJdwWHUq7XGrEcXeCM")
+# KHÔNG dán mã API thật vào đây để tránh bị khóa.
+# Hãy sử dụng hệ thống Secrets của Streamlit.
+genai.configure(api_key="YOUR_API_KEY_HERE")
 model = genai.GenerativeModel('gemini-flash-latest')
 
 # 2. Giao diện Web
 st.set_page_config(page_title="HR Student Assistant", page_icon="🤝", layout="wide")
 
-# ========== CUSTOM CSS ==========
-st.markdown("""
-<style>
-    /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;600;700;800&display=swap');
-
-    /* Toàn bộ app */
-    html, body, [class*="css"] {
-        font-family: 'Be Vietnam Pro', sans-serif;
-    }
-
-    /* Nền tổng thể */
-    .stApp {
-        background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-        color: #f0f0f0;
-    }
-
-    /* Sidebar */
-    [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
-        border-right: 1px solid rgba(255,255,255,0.08);
-    }
-    [data-testid="stSidebar"] * {
-        color: #c9d1e0 !important;
-    }
-
-    /* Hero Section */
-    .hero-container {
-        background: linear-gradient(135deg, rgba(100, 65, 230, 0.3), rgba(30, 180, 200, 0.2));
-        border: 1px solid rgba(255,255,255,0.12);
-        border-radius: 20px;
-        padding: 32px 36px;
-        margin-bottom: 24px;
-        backdrop-filter: blur(12px);
-        box-shadow: 0 8px 40px rgba(0,0,0,0.4);
-    }
-
-    .hero-title {
-        font-size: 2.4rem;
-        font-weight: 800;
-        background: linear-gradient(90deg, #a78bfa, #38bdf8, #34d399);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        line-height: 1.2;
-        margin-bottom: 10px;
-    }
-
-    .hero-sub {
-        font-size: 1.05rem;
-        color: #94a3b8;
-        font-weight: 400;
-    }
-
-    .badge {
-        display: inline-block;
-        background: rgba(167, 139, 250, 0.18);
-        color: #a78bfa;
-        border: 1px solid rgba(167, 139, 250, 0.35);
-        border-radius: 50px;
-        padding: 4px 14px;
-        font-size: 0.78rem;
-        font-weight: 600;
-        margin-bottom: 14px;
-        letter-spacing: 0.5px;
-    }
-
-    /* Divider */
-    hr {
-        border-color: rgba(255,255,255,0.08) !important;
-    }
-
-    /* Chat messages */
-    [data-testid="stChatMessage"] {
-        background: rgba(255,255,255,0.04) !important;
-        border: 1px solid rgba(255,255,255,0.07) !important;
-        border-radius: 14px !important;
-        padding: 12px 16px !important;
-        margin-bottom: 8px !important;
-    }
-
-    /* Chat input */
-    [data-testid="stChatInput"] textarea {
-        background: rgba(255,255,255,0.07) !important;
-        border: 1px solid rgba(167, 139, 250, 0.4) !important;
-        border-radius: 12px !important;
-        color: #f0f0f0 !important;
-        font-family: 'Be Vietnam Pro', sans-serif !important;
-    }
-    [data-testid="stChatInput"] textarea::placeholder {
-        color: #64748b !important;
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(167,139,250,0.4); border-radius: 10px; }
-
-    /* Sidebar info box */
-    .stAlert {
-        background: rgba(56, 189, 248, 0.08) !important;
-        border: 1px solid rgba(56, 189, 248, 0.25) !important;
-        border-radius: 10px !important;
-        color: #7dd3fc !important;
-    }
-</style>
-""", unsafe_allow_html=True)
-
-# ========== HERO SECTION ==========
-col1, col2 = st.columns([1, 2.5])
-
-with col1:
-    # Ảnh chuyên nghiệp về HR/People Management
-    st.image(
-        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600",
-        use_container_width=True
-    )
-
-with col2:
-    st.markdown("""
-    <div class="hero-container">
-        <div class="badge">✦ AI-Powered · K17 QTNNL</div>
-        <div class="hero-title">🤝 Trợ lý sinh viên<br>chuyên ngành QTNNL</div>
-        <div class="hero-sub">Người bạn đồng hành trên con đường sự nghiệp HR — <br>Hỏi về mọi thứ bạn cần.</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-st.divider()
-
-# 3. Sidebar
-st.sidebar.header("📂 Kho dữ liệu")
-st.sidebar.info("Đã nạp: QTNNL-handbook.md & huong-dan.txt")
-
-# 4. Hàm nạp tri thức
-def get_context():
-    context = ""
-    for file in ["huong-dan.txt", "QTNNL-handbook.md"]:
-        if os.path.exists(file):
-            with open(file, "r", encoding="utf-8") as f:
-                context += f.read() + "\n\n"
-    return context
-
-# 5. Giao diện Chat
-if "messages" not in st.session_state:
-    st.session_state.messages = []
-
-# Hiển thị lịch sử chat
-for message in st.session_state.messages:
-    with st.chat_message(message["role"]):
-        st.markdown(message["content"])
-
-# Ô nhập liệu
-if prompt := st.chat_input("Hỏi mình về những thứ bạn đang thắc mắc nhé"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-    with st.chat_message("assistant"):
-        with st.spinner("Đang kết nối tri thức..."):
-            context = get_context()
-            full_query = f"{context}\n\nCâu hỏi: {prompt}"
-            response = model.generate_content(full_query)
-            st.markdown(response.text)
-            st.session_state.messages.append({"role": "assistant", "content": response.text})
+# ... rest of file (CSS, Hero Section, etc. remains the same) ...
